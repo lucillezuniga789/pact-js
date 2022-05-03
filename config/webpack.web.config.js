@@ -16,11 +16,11 @@ module.exports = {
   },
   resolve: {
     extensions: [".mjs", ".ts", ".tsx", ".js"],
+    fallback: {
+      net: false
+    },
   },
   target: "web",
-  node: {
-    net: "empty",
-  },
   module: {
     rules: [
       {
@@ -37,7 +37,7 @@ module.exports = {
         use: [
           {
             loader: "babel-loader",
-            query: {
+            options: {
               presets: ["@babel/preset-env"],
             },
           },
@@ -49,7 +49,9 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({ Promise: ["es6-promise", "Promise"] }),
     new webpack.DefinePlugin({ "global.GENTLY": false }),
-    new webpack.IgnorePlugin(/vertx/),
+    new webpack.IgnorePlugin({
+      resourceRegExp: /vertx/
+    }),
   ],
   devtool: "source-map",
 }
